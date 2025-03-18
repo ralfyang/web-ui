@@ -4,3 +4,4 @@ gradio==5.10.0
 json-repair
 langchain-mistralai==0.2.4
 MainContentExtractor==0.0.4
+langchain_google_genai==2.1.0
