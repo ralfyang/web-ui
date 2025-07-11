@@ -64,6 +64,13 @@ services:
       # VNC Settings
       - VNC_PASSWORD=${VNC_PASSWORD:-youvncpassword}
 
+      # Authentication Settings
+      - DEFAULT_USERNAME=${DEFAULT_USERNAME:-admin}
+      - DEFAULT_PASSWORD=${DEFAULT_PASSWORD:-browser-use-2024}
+      - AUTH_USERS=${AUTH_USERS:-}
+      - PASSWORD_SALT=${PASSWORD_SALT:-browser-use-salt-change-this}
+      - DISABLE_AUTH=${DISABLE_AUTH:-false}
+
     volumes:
       - /tmp/.X11-unix:/tmp/.X11-unix
       # - ./my_chrome_data:/app/data/chrome_data # Optional: persist browser data

@@ -83,6 +83,13 @@ cp .env.example .env
 2. Open `.env` in your preferred text editor and add your API keys and other settings
 
 #### Step 5: Enjoy the web-ui
+
+**보안 설정 (중요):**
+기본적으로 웹 UI는 로그인 인증이 활성화되어 있습니다.
+- 기본 계정: `admin` / `browser-use-2024`
+- 프로덕션 환경에서는 반드시 `.env` 파일에서 `DEFAULT_PASSWORD`를 변경하세요
+- 여러 사용자를 추가하려면 `AUTH_USERS` 환경변수를 설정하세요
+
 1.  **Run the WebUI:**
     ```bash
     python webui.py --ip 127.0.0.1 --port 7788
@@ -131,6 +138,15 @@ cp .env.example .env
 2. Open `.env` in your preferred text editor and add your API keys and other settings
 
 #### Step 3: Docker Build and Run
+
+**보안 설정 (중요):**
+프로덕션 환경에서 사용하기 전에 `.env` 파일에서 인증 설정을 변경하세요:
+```env
+DEFAULT_USERNAME=your_admin_username
+DEFAULT_PASSWORD=your_secure_password
+PASSWORD_SALT=your_unique_salt_string
+```
+
 ```bash
 docker compose up --build
 ```
@@ -144,6 +160,7 @@ TARGETPLATFORM=linux/arm64 docker compose up --build
 - VNC Viewer (for watching browser interactions): Open `http://localhost:6080/vnc.html`
   - Default VNC password: "youvncpassword"
   - Can be changed by setting `VNC_PASSWORD` in your `.env` file
+- **로그인 정보**: 기본 계정은 `admin` / `browser-use-2024` 입니다 (프로덕션에서는 반드시 변경하세요)
 
 ## Changelog
 - [x] **2025/01/26:** Thanks to @vvincent1234. Now browser-use-webui can combine with DeepSeek-r1 to engage in deep thinking!

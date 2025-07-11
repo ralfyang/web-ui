@@ -1,6 +1,7 @@
 import gradio as gr
 
 from src.webui.webui_manager import WebuiManager
+from src.webui.auth import create_auth_manager
 from src.webui.components.agent_settings_tab import create_agent_settings_tab
 from src.webui.components.browser_settings_tab import create_browser_settings_tab
 from src.webui.components.browser_use_agent_tab import create_browser_use_agent_tab
@@ -19,7 +20,7 @@ theme_map = {
 }
 
 
-def create_ui(theme_name="Ocean"):
+def create_ui(theme_name="Ocean", enable_auth=True):
     css = """
     .gradio-container {
         width: 70vw !important; 
@@ -54,10 +55,22 @@ def create_ui(theme_name="Ocean"):
     }
     """
 
+    # 인증 설정
+    auth_manager = None
+    auth_func = None
+    if enable_auth:
+        auth_manager = create_auth_manager()
+        auth_func = auth_manager.get_auth_function()
+
     ui_manager = WebuiManager()
 
     with gr.Blocks(
-            title="Browser Use WebUI", theme=theme_map[theme_name], css=css, js=js_func,
+            title="Browser Use WebUI", 
+            theme=theme_map[theme_name], 
+            css=css, 
+            js=js_func,
+            auth=auth_func,
+            auth_message="Browser Use WebUI에 로그인하세요"
     ) as demo:
         with gr.Row():
             gr.Markdown(
