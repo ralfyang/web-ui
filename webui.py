@@ -21,17 +21,10 @@ def main():
     
     demo, auth_enabled = create_ui(theme_name=args.theme, enable_auth=enable_auth)
     
-    # 인증 설정을 launch에 전달
     launch_kwargs = {
         "server_name": args.ip,
         "server_port": args.port
     }
-    
-    if auth_enabled:
-        from src.webui.auth import create_auth_manager
-        auth_manager = create_auth_manager()
-        launch_kwargs["auth"] = auth_manager.get_auth_function()
-        launch_kwargs["auth_message"] = "Browser Use WebUI에 로그인하세요"
     
     demo.queue().launch(**launch_kwargs)
 
