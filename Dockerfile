@@ -7,6 +7,7 @@ ARG NODE_MAJOR=20
 # Install system dependencies
 RUN apt-get update && apt-get install -y \
     wget \
+    findutils \
     netcat-traditional \
     gnupg \
     curl \
