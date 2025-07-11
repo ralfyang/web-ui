@@ -20,6 +20,21 @@ theme_map = {
 }
 
 
+def logout_user():
+    """로그아웃 처리 - 페이지 새로고침으로 로그인 화면으로 돌아감"""
+    return gr.update(), gr.HTML("""
+        <script>
+        setTimeout(function() {
+            window.location.reload();
+        }, 100);
+        </script>
+        <div style="text-align: center; padding: 20px;">
+            <h3>로그아웃 중...</h3>
+            <p>잠시 후 로그인 화면으로 이동합니다.</p>
+        </div>
+    """)
+
+
 def create_ui(theme_name="Ocean", enable_auth=True):
     css = """
     .gradio-container {
@@ -40,6 +55,22 @@ def create_ui(theme_name="Ocean", enable_auth=True):
         margin-bottom: 10px;
         padding: 15px;
         border-radius: 10px;
+    }
+    .logout-button {
+        position: fixed !important;
+        top: 10px !important;
+        right: 10px !important;
+        z-index: 1000 !important;
+        background: #ff4444 !important;
+        color: white !important;
+        border: none !important;
+        padding: 8px 16px !important;
+        border-radius: 4px !important;
+        cursor: pointer !important;
+        font-size: 12px !important;
+    }
+    .logout-button:hover {
+        background: #cc3333 !important;
     }
     """
 
@@ -63,14 +94,27 @@ def create_ui(theme_name="Ocean", enable_auth=True):
             css=css, 
             js=js_func
     ) as demo:
+        # 로그아웃 관련 컴포넌트 (숨김)
+        logout_trigger = gr.Button("로그아웃", visible=False)
+        logout_output = gr.HTML(visible=False)
+        
         with gr.Row():
-            gr.Markdown(
-                """
-                # 🌐 Browser Use WebUI
-                ### Control your browser with AI assistance
-                """,
-                elem_classes=["header-text"],
-            )
+            with gr.Column(scale=10):
+                gr.Markdown(
+                    """
+                    # 🌐 Browser Use WebUI
+                    ### Control your browser with AI assistance
+                    """,
+                    elem_classes=["header-text"],
+                )
+            with gr.Column(scale=1, min_width=100):
+                if enable_auth:
+                    logout_btn = gr.Button(
+                        "🚪 로그아웃", 
+                        elem_classes=["logout-button"],
+                        size="sm",
+                        variant="stop"
+                    )
 
         with gr.Tabs() as tabs:
             with gr.TabItem("⚙️ Agent Settings"):
@@ -96,4 +140,11 @@ def create_ui(theme_name="Ocean", enable_auth=True):
             with gr.TabItem("📁 Load & Save Config"):
                 create_load_save_config_tab(ui_manager)
 
+        # 로그아웃 버튼 이벤트 연결
+        if enable_auth:
+            logout_btn.click(
+                fn=logout_user,
+                inputs=[],
+                outputs=[logout_trigger, logout_output]
+            )
     return demo, enable_auth

@@ -44,6 +44,13 @@ DEFAULT_PASSWORD=my_secure_password_123
 AUTH_USERS=admin:admin_password,researcher:research_pass,analyst:analyst_pass
 ```
 
+### 로그아웃 기능
+
+웹 UI 우상단에 로그아웃 버튼이 제공됩니다:
+- 🚪 로그아웃 버튼 클릭 시 세션 종료
+- 자동으로 로그인 화면으로 리다이렉트
+- 브라우저 새로고침으로 세션 초기화
+
 ### 보안 권장사항
 
 1. **강력한 비밀번호 사용**
@@ -62,6 +69,10 @@ AUTH_USERS=admin:admin_password,researcher:research_pass,analyst:analyst_pass
 5. **정기적인 비밀번호 변경**
    - 주기적으로 비밀번호 업데이트
 
+6. **세션 관리**
+   - 작업 완료 후 로그아웃 습관화
+   - 공용 컴퓨터에서는 반드시 로그아웃
+   - 브라우저 종료 시에도 세션 유지되므로 주의
 ### 인증 비활성화 (권장하지 않음)
 
 개발 환경에서만 인증을 비활성화할 수 있습니다:
