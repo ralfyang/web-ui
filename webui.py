@@ -2,8 +2,6 @@ from dotenv import load_dotenv
 load_dotenv()
 import argparse
 import os
-import urllib.parse
-import gradio as gr
 from src.webui.interface import theme_map, create_ui
 
 
@@ -32,21 +30,7 @@ def main():
     if auth_enabled:
         from src.webui.auth import create_auth_manager
         auth_manager = create_auth_manager()
-        
-        def custom_auth_handler(username, password, request: gr.Request = None):
-            # URL에서 로그아웃 파라미터 확인
-            if request and hasattr(request, 'query_params'):
-                if '__logout' in request.query_params:
-                    return False  # 로그아웃 요청 시 인증 실패로 처리
-            elif request and hasattr(request, 'url'):
-                parsed_url = urllib.parse.urlparse(str(request.url))
-                query_params = urllib.parse.parse_qs(parsed_url.query)
-                if '__logout' in query_params:
-                    return False  # 로그아웃 요청 시 인증 실패로 처리
-            
-            return auth_manager.authenticate(username, password)
-        
-        launch_kwargs["auth"] = custom_auth_handler
+        launch_kwargs["auth"] = auth_manager.get_auth_function()
         launch_kwargs["auth_message"] = "Browser Use WebUI에 로그인하세요"
     
     demo.queue().launch(**launch_kwargs)

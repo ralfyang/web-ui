@@ -33,27 +33,6 @@ def create_ui(theme_name="Ocean", enable_auth=True):
         text-align: center;
         margin-bottom: 20px;
     }
-    .user-info {
-        text-align: right;
-        margin-bottom: 10px;
-        padding: 10px;
-        background-color: var(--background-fill-secondary);
-        border-radius: 8px;
-        font-size: 14px;
-    }
-    .logout-button {
-        margin-left: 10px;
-        background: #ff4444 !important;
-        color: white !important;
-        border: none !important;
-        padding: 5px 10px !important;
-        border-radius: 4px !important;
-        cursor: pointer !important;
-        text-decoration: none !important;
-    }
-    .logout-button:hover {
-        background: #cc3333 !important;
-    }
     .tab-header-text {
         text-align: center;
     }
@@ -84,39 +63,6 @@ def create_ui(theme_name="Ocean", enable_auth=True):
             css=css, 
             js=js_func
     ) as demo:
-        # 사용자 정보 및 로그아웃 섹션 (인증이 활성화된 경우에만 표시)
-        if enable_auth:
-            with gr.Row():
-                with gr.Column(scale=3):
-                    pass  # 빈 공간
-                with gr.Column(scale=1):
-                    user_info = gr.HTML(
-                        value='''
-                        <div class="user-info">
-                            👤 로그인됨 
-                            <button onclick="logout()" class="logout-button">🚪 로그아웃</button>
-                        </div>
-                        <script>
-                        function logout() {
-                            if (confirm('정말 로그아웃하시겠습니까?')) {
-                                // 세션 스토리지와 로컬 스토리지 클리어
-                                sessionStorage.clear();
-                                localStorage.clear();
-                                
-                                // 쿠키 클리어 (Gradio 인증 관련)
-                                document.cookie.split(";").forEach(function(c) { 
-                                    document.cookie = c.replace(/^ +/, "").replace(/=.*/, "=;expires=" + new Date().toUTCString() + ";path=/"); 
-                                });
-                                
-                                // 페이지 새로고침으로 로그인 화면으로 돌아가기
-                                window.location.reload();
-                            }
-                        }
-                        </script>
-                        ''',
-                        elem_classes=["user-info"]
-                    )
-        
         with gr.Row():
             gr.Markdown(
                 """
