@@ -3,6 +3,7 @@ load_dotenv()
 import argparse
 import os
 import urllib.parse
+import gradio as gr
 from src.webui.interface import theme_map, create_ui
 
 
