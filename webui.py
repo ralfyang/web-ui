@@ -32,6 +32,14 @@ def main():
         auth_manager = create_auth_manager()
         launch_kwargs["auth"] = auth_manager.get_auth_function()
         launch_kwargs["auth_message"] = "Browser Use WebUI에 로그인하세요"
+        
+        # 로그아웃 처리를 위한 커스텀 핸들러
+        def custom_auth_handler(username, password):
+            # URL에 __logout 파라미터가 있으면 로그아웃 처리
+            import urllib.parse
+            return auth_manager.authenticate(username, password)
+        
+        launch_kwargs["auth"] = custom_auth_handler
     
     demo.queue().launch(**launch_kwargs)
 
