@@ -20,7 +20,18 @@ def main():
         print("⚠️  경고: 인증이 비활성화되었습니다. 프로덕션 환경에서는 권장하지 않습니다.")
     
     demo = create_ui(theme_name=args.theme, enable_auth=enable_auth)
-    demo.queue().launch(server_name=args.ip, server_port=args.port)
+    
+    # 인증 설정을 launch에 전달
+    launch_kwargs = {
+        "server_name": args.ip,
+        "server_port": args.port
+    }
+    
+    if hasattr(demo, 'auth_func') and demo.auth_func:
+        launch_kwargs["auth"] = demo.auth_func
+        launch_kwargs["auth_message"] = demo.auth_message
+    
+    demo.queue().launch(**launch_kwargs)
 
 
 if __name__ == '__main__':

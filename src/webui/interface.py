@@ -55,22 +55,13 @@ def create_ui(theme_name="Ocean", enable_auth=True):
     }
     """
 
-    # 인증 설정
-    auth_manager = None
-    auth_func = None
-    if enable_auth:
-        auth_manager = create_auth_manager()
-        auth_func = auth_manager.get_auth_function()
-
     ui_manager = WebuiManager()
 
     with gr.Blocks(
             title="Browser Use WebUI", 
             theme=theme_map[theme_name], 
             css=css, 
-            js=js_func,
-            auth=auth_func,
-            auth_message="Browser Use WebUI에 로그인하세요"
+            js=js_func
     ) as demo:
         with gr.Row():
             gr.Markdown(
@@ -104,5 +95,14 @@ def create_ui(theme_name="Ocean", enable_auth=True):
 
             with gr.TabItem("📁 Load & Save Config"):
                 create_load_save_config_tab(ui_manager)
+
+    # 인증 설정을 demo 객체에 저장
+    if enable_auth:
+        auth_manager = create_auth_manager()
+        demo.auth_func = auth_manager.get_auth_function()
+        demo.auth_message = "Browser Use WebUI에 로그인하세요"
+    else:
+        demo.auth_func = None
+        demo.auth_message = None
 
     return demo
