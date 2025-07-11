@@ -19,8 +19,8 @@ def create_main_application(ui_manager: WebuiManager, logout_button: gr.Button) 
                 elem_classes=["header-text"],
             )
         with gr.Column(scale=1, min_width=100):
-            # 로그아웃 버튼을 여기에 배치
-            logout_button.render()
+            # 로그아웃 버튼을 여기에 배치 (render() 제거)
+            logout_button
 
     with gr.Tabs():
         with gr.TabItem("⚙️ Agent Settings"):
